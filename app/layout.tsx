@@ -5,7 +5,7 @@ import { ThemeProvider } from "@/providers/theme";
 import { Header } from "@/components/custom";
 
 import "./globals.css";
-
+import { twMerge } from "tailwind-merge";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -20,16 +20,18 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
-      <body className={inter.className}>
+    <html suppressHydrationWarning lang="en" className="min-h-dvh">
+      <body className={twMerge(inter.className, "h-full")}>
         <ThemeProvider
           attribute="class"
-          defaultTheme="system"
+          defaultTheme="dark"
           enableSystem
           disableTransitionOnChange
         >
           <Header />
-          {children}
+          <main className="flex min-h-screen flex-col items-center justify-between px-10 md:px-20 pt-3 pb-10 max-w-7xl mx-auto">
+            {children}
+          </main>
         </ThemeProvider>
       </body>
     </html>

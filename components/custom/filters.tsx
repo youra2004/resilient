@@ -5,9 +5,9 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Typography } from "@/components/ui/typography";
 import { ToggleGroup, ToggleGroupItem } from "@radix-ui/react-toggle-group";
-import { SetStateAction, useState } from "react";
+import { useState } from "react";
 
-const allFilters = [
+export const allCategoryFilters = [
   "All",
   "Web development",
   "Backend development",
@@ -16,14 +16,14 @@ const allFilters = [
   "Psychology",
 ] as const;
 
-type FilterValue = Partial<(typeof allFilters)[number]>;
+export type FilterCategoryValue = Partial<(typeof allCategoryFilters)[number]>;
 
 export const Filters = () => {
-  const [selectedFilter, setSelectedFilter] = useState<FilterValue[]>(["All"]);
+  const [selectedFilter, setSelectedFilter] = useState<FilterCategoryValue[]>([
+    "All",
+  ]);
 
-  const handleSelectFilter = (value: FilterValue) => {
-    console.log("value", value);
-
+  const handleSelectFilter = (value: FilterCategoryValue) => {
     if (value === "All") {
       setSelectedFilter(["All"]);
 
@@ -52,9 +52,9 @@ export const Filters = () => {
       <ToggleGroup
         type="multiple"
         value={selectedFilter}
-        className="flex justify-center gap-4"
+        className="flex justify-center gap-4 flex-wrap"
       >
-        {allFilters.map((value) => (
+        {allCategoryFilters.map((value) => (
           <Button
             aria-label={value}
             key={value}

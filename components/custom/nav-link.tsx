@@ -1,8 +1,8 @@
-'use client';
+"use client";
 
-import { cn } from '@/lib/utils';
-import Link from 'next/link';
-import { usePathname } from 'next/navigation';
+import { cn } from "@/lib/utils";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
 
 interface NavLinkProps {
   className: string;
@@ -11,15 +11,21 @@ interface NavLinkProps {
   activeClassName?: string;
 }
 
-export const NavLink = ({ className, href, children, activeClassName = 'text-primary' }: NavLinkProps) => {
+export const NavLink = ({
+  className,
+  href,
+  children,
+  activeClassName = "text-primary",
+}: NavLinkProps) => {
   const pathname = usePathname();
 
   const isActive = pathname === `/${href}`;
 
-  console.log('isActive', pathname, href);
-
   return (
-    <Link className={cn(className, { [activeClassName]: isActive })} href={href}>
+    <Link
+      className={cn(className, { [activeClassName]: isActive })}
+      href={href}
+    >
       {children}
     </Link>
   );
