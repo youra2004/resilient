@@ -16,8 +16,6 @@ export const NavLink = ({ className, href, children, activeClassName = 'text-pri
 
   const isActive = pathname === `/${href}`;
 
-  console.log('isActive', pathname, href);
-
   return (
     <Link className={cn(className, { [activeClassName]: isActive })} href={href}>
       {children}
