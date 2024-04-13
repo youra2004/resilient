@@ -2,18 +2,19 @@ import { Logo } from "./logo";
 import { ModeToggle } from ".";
 import { Separator } from "../ui/separator";
 import { NavLink } from "./nav-link";
-import { Button } from "@/components/ui/button";
+import { MobileNav } from "./mobile-nav";
+import { HeaderTitle } from "./header-title";
 import Link from "next/link";
 
 export const Header = () => {
   return (
     <>
-      <div className="flex items-center justify-between p-6 max-w-7xl	mx-auto">
-        <div className="flex-1">
+      <div className="flex items-center justify-between p-6">
+        <div className="sm:flex-1">
           <Logo />
         </div>
 
-        <div className="flex gap-4 flex-1 justify-center items-center">
+        <div className="hidden sm:flex gap-4 flex-1 justify-center items-center">
           <NavLink
             href="courses"
             className="text-lg hover:text-muted-foreground transition-colors"
@@ -37,9 +38,15 @@ export const Header = () => {
           </Link>
         </div>
 
-        <div className="flex gap-4 items-center flex-1 justify-end">
+        <HeaderTitle />
+
+        <div className="hidden sm:flex gap-4 items-center flex-1 justify-end">
           <ModeToggle />
           <span>Name Surname</span>
+        </div>
+
+        <div className="flex sm:hidden">
+          <MobileNav />
         </div>
       </div>
       <Separator />
