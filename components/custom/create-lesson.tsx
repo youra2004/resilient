@@ -52,9 +52,8 @@ export const CreateLesson = ({ courseId }: { courseId: string }) => {
       });
 
       if (res?.status === 201) {
-        router.push("/", {
-          scroll: true,
-        });
+        router.push("/courses");
+        router.refresh();
       }
     }
   }

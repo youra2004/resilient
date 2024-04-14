@@ -17,3 +17,17 @@ export interface CategoryDTO {
   id: string;
   name: string;
 }
+
+interface Author {
+  name: string;
+  personal_info: string;
+  age: number;
+}
+
+export interface ServiceDTO {
+  id: string;
+  title: string;
+  description: string;
+  author_id: string;
+  author: Author;
+}

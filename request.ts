@@ -55,3 +55,21 @@ export const createLesson = async (body: {
     console.log("error", error);
   }
 };
+
+export const registerUser = async (body: {
+  firstName: string;
+  lastName: string;
+  password: string;
+  email: string;
+  personal_info: string;
+}) => {
+  try {
+    const { data, status } = await axios.post("/users/sign-up", body);
+
+    console.log("data", data, status);
+
+    return { data, status };
+  } catch (error) {
+    console.log("error", error);
+  }
+};
