@@ -12,11 +12,12 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion"
 import { Filters } from "@/components/custom";
-import { getCourses } from '@/request';
+import { createCourse, getCourses } from '@/request';
 
 export default async function Home() {
   const coruses = await getCourses();
 
+  await createCourse();
   console.log('coruses', coruses.data);
 
   return (
