@@ -21,17 +21,17 @@ export const allCategoryFilters = [
 
 interface FilterProps {
   categories?: CategoriesDTO[];
-};
+}
 
 export const Filters = ({ categories }: FilterProps) => {
   const searchParams = useSearchParams();
 
-  const allCategory = searchParams.get('categoryIds')
-    ? JSON.parse(searchParams.get('categoryIds') ?? '')?.[0]
-    : categories?.find((category) => category.name === 'All')?.id;
+  const allCategory = searchParams.get("categoryIds")
+    ? JSON.parse(searchParams.get("categoryIds") ?? "")?.[0]
+    : categories?.find((category) => category.name === "All")?.id;
 
   const [selectedFilter, setSelectedFilter] = useState<string[]>([
-    allCategory ?? '',
+    allCategory ?? "",
   ]);
 
   const router = useRouter();
@@ -47,7 +47,7 @@ export const Filters = ({ categories }: FilterProps) => {
     if (selectedFilter.includes(value)) {
       setSelectedFilter((prev) => {
         return prev.filter((item) => item !== value).length === 0
-          ? [allCategory ?? '']
+          ? [allCategory ?? ""]
           : prev.filter((item) => item !== value);
       });
 
@@ -62,17 +62,17 @@ export const Filters = ({ categories }: FilterProps) => {
 
   useEffect(() => {
     const timeout = setTimeout(() => {
-      router.push(`${pathname}?categoryIds=${JSON.stringify(selectedFilter)}`)
+      router.push(`${pathname}?categoryIds=${JSON.stringify(selectedFilter)}`);
     }, 500);
 
     return () => {
-      clearTimeout(timeout)
-    }
-  }, [router, selectedFilter, allCategory, pathname])
+      clearTimeout(timeout);
+    };
+  }, [router, selectedFilter, allCategory, pathname]);
 
   return (
     <Box>
-      <Input placeholder="Search..." />
+      <Input placeholder="Search..." className="max-w-[780px] mx-auto" />
       <ToggleGroup
         type="multiple"
         value={selectedFilter}
@@ -83,7 +83,9 @@ export const Filters = ({ categories }: FilterProps) => {
             aria-label={category.name}
             key={category.id}
             onClick={() => handleSelectFilter(category.id)}
-            variant={selectedFilter.includes(category.id) ? "default" : "outline"}
+            variant={
+              selectedFilter.includes(category.id) ? "default" : "outline"
+            }
             className="border-none"
           >
             <Typography>{category.name}</Typography>

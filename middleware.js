@@ -1,11 +1,21 @@
-import { NextResponse } from 'next/server';
+import { NextResponse } from "next/server";
 
 export function middleware(request) {
-  const { pathname } = request.nextUrl;
+  const { pathname, searchParams } = request.nextUrl;
 
-  if (pathname === '/') {
+  if (pathname === "/auth") {
+    const token = searchParams.get("token");
     const url = request.nextUrl.clone();
-    url.pathname = '/courses';
+
+    url.searchParams.delete('token')
+    url.pathname = "/courses";
+
+    return NextResponse.redirect(url);
+  }
+
+  if (pathname === "/") {
+    const url = request.nextUrl.clone();
+    url.pathname = "/courses";
 
     return NextResponse.redirect(url);
   }
