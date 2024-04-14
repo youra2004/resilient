@@ -12,16 +12,13 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion";
 import { Filters } from "@/components/custom";
-import { createCourse, getCourses } from "@/request";
+import { getCourses } from "@/request";
 
 export default async function Home() {
   const coruses = await getCourses();
 
-  await createCourse();
-  console.log("coruses", coruses.data);
-
   return (
-    <main className="flex min-h-screen flex-col items-center justify-between p-24">
+    <>
       <Filters />
 
       <div className="flex flex-col gap-2 w-3/4">
@@ -58,6 +55,6 @@ export default async function Home() {
           </Card>
         ))}
       </div>
-    </main>
+    </>
   );
 }

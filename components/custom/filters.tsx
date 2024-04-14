@@ -4,7 +4,7 @@ import { Box } from "@/components/ui/box";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Typography } from "@/components/ui/typography";
-import { ToggleGroup, ToggleGroupItem } from "@radix-ui/react-toggle-group";
+import { ToggleGroup } from "@radix-ui/react-toggle-group";
 import { useState } from "react";
 
 export const allCategoryFilters = [

@@ -16,7 +16,7 @@ export const Header = () => {
 
         <div className="hidden sm:flex gap-4 flex-1 justify-center items-center">
           <NavLink
-            href="courses"
+            href="/courses"
             className="text-lg hover:text-muted-foreground transition-colors"
           >
             Courses
@@ -25,7 +25,7 @@ export const Header = () => {
           <Separator orientation="vertical" className="h-4" />
 
           <NavLink
-            href="services"
+            href="/services"
             className="text-lg hover:text-muted-foreground transition-colors"
           >
             Services

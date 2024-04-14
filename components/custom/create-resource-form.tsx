@@ -22,13 +22,12 @@ import {
   SelectContent,
   SelectGroup,
   SelectItem,
-  SelectLabel,
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { CmsEditor, allCategoryFilters } from "@/components/custom";
-import { useRef } from "react";
-import { Editor } from "@tinymce/tinymce-react";
+import { CategoryDTO } from "@/types/courses";
+import { createCourse } from "@/request";
+import { useRouter } from "next/navigation";
 
 const formSchema = z.object({
   title: z
@@ -56,15 +55,15 @@ const formSchema = z.object({
   productType: z.enum(["service", "courses"]),
 });
 
-const categoryDropdown = allCategoryFilters
-  .filter((name) => name !== "All")
-  .map((name, index) => ({
-    id: index.toString(),
-    name,
-  }));
+export const CreateResourceForm = ({
+  coursesCategories,
+}: {
+  coursesCategories: CategoryDTO[];
+}) => {
+  const router = useRouter();
 
-export const CreateResourceForm = () => {
-  const editorRef = useRef<Editor>(null);
+  const categoryDropdown =
+    (coursesCategories || [])?.filter(({ name }) => name !== "All") || [];
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -74,21 +73,27 @@ export const CreateResourceForm = () => {
         id: "",
         name: "",
       },
+      title: "",
+      description: "",
     },
   });
 
-  function onSubmit({
+  async function onSubmit({
     title,
     description,
     category,
     productType,
   }: z.infer<typeof formSchema>) {
-    if (editorRef.current) {
-      // @ts-ignore
+    const res = await createCourse({
+      title,
+      description,
+      category_id: category.id,
+    });
+
+    if (res?.status === 201 && res.data.id) {
+      router.push(`/create-lesson/${res.data.id}`);
     }
   }
-
-  const { productType } = form.watch();
 
   return (
     <Form {...form}>
@@ -191,9 +196,6 @@ export const CreateResourceForm = () => {
             </FormItem>
           )}
         />
-
-        {productType === "courses" && <CmsEditor ref={editorRef} />}
-
         <Button type="submit" className="mt-8">
           Submit
         </Button>

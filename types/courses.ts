@@ -12,3 +12,8 @@ export interface LessonsDTO {
   content: string;
   course_id: string;
 }
+
+export interface CategoryDTO {
+  id: string;
+  name: string;
+}
