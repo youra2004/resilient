@@ -1,3 +1,4 @@
+"use client";
 import Link from "next/link";
 import { HamburgerMenuIcon } from "@radix-ui/react-icons";
 
@@ -10,8 +11,11 @@ import {
 } from "@/components/ui/drawer";
 import { ModeToggle, NavLink } from ".";
 import { Separator } from "../ui/separator";
+import { useIsClient } from "@/hooks/useIsClient";
 
 export const MobileNav = () => {
+  const isClient = useIsClient();
+
   return (
     <Drawer direction="right">
       <DrawerTrigger>
@@ -49,7 +53,8 @@ export const MobileNav = () => {
           <div className="flex gap-4 items-center">
             <ModeToggle />
             <span>
-              {window?.localStorage.getItem("userName") || "Yurii Terletskyy"}
+              {(isClient && window?.localStorage.getItem("userName")) ||
+                "Yurii Terletskyy"}
             </span>
           </div>
         </DrawerContent>

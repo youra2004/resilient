@@ -18,6 +18,7 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
+import { useIsClient } from "@/hooks/useIsClient";
 
 const formSchema = z.object({
   email: z.string().email("Email is invalid"),
@@ -36,10 +37,15 @@ export default function SignInPage() {
     },
   });
 
+  const isClient = useIsClient();
+
   async function onSubmit({ password, email }: z.infer<typeof formSchema>) {
     setTimeout(() => {
-      window?.localStorage.setItem("user-id", "");
-      window?.localStorage.setItem("role", "volunteer");
+      if (isClient) {
+        window?.localStorage.setItem("user-id", "");
+        window?.localStorage.setItem("role", "volunteer");
+      }
+
       router.push("/");
     }, 300);
   }

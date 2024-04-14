@@ -23,6 +23,7 @@ import { Label } from "@/components/ui/label";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { registerUser, uploadDocuments } from "@/request";
 import Link from "next/link";
+import { useIsClient } from "@/hooks/useIsClient";
 
 const formSchema = z.object({
   firstName: z.string().min(4, {
@@ -53,6 +54,8 @@ export default function SignUpPage() {
       email: "",
     },
   });
+
+  const isClient = useIsClient();
 
   async function onSubmit({
     firstName,
@@ -85,7 +88,8 @@ export default function SignUpPage() {
       return;
     }
 
-    window?.localStorage.setItem("userName", `${firstName} ${lastName}`);
+    isClient &&
+      window?.localStorage.setItem("userName", `${firstName} ${lastName}`);
 
     setShowPendingPage(true);
   }
