@@ -12,19 +12,26 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion"
 import { Filters } from "@/components/custom";
-import { getCourses } from '@/request';
+import { getCategories, getCourses } from '@/request';
 
-export default async function Home() {
-  const coruses = await getCourses();
+interface HomeProps {
+  searchParams?: { categoryIds: string }
+}
+export default async function Home({ searchParams }: HomeProps) {
+  const courses = await getCourses({
+    categoriesIds: JSON.parse(searchParams?.categoryIds),
+  });
 
-  console.log('coruses', coruses.data);
+  const categories = await getCategories();
+
+  console.log('courses', courses);
 
   return (
     <main className='flex min-h-screen flex-col items-center justify-between p-24'>
-      <Filters />
+      <Filters categories={categories?.data} />
 
       <div className='flex flex-col gap-2 w-3/4'>
-        {coruses.data.map((course) => (
+        {courses?.data?.map((course) => (
           <Card className='p-4 w-full' key={course.id}>
             <CardContent className='flex flex-col gap-3 w-72'>
               <CardTitle>{course.title}</CardTitle>

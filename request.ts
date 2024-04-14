@@ -1,15 +1,22 @@
 import axios from './api';
+import { CategoriesDTO } from './types/categories';
 import { CoursesDTO } from './types/courses';
 
-export const getCourses = async () => {
+export const getCourses = async (params?) => {
+  const test = JSON.stringify(params.categoriesIds);
+  console.log('test', JSON.stringify(params.categoriesIds));
+
   try {
     return await axios.get<CoursesDTO[]>('/courses?search=');
   } catch (error) {
-    if (error instanceof Error) {
-      throw new Error(error.message); // Now we are passing a string to Error constructor
-    } else {
-      // If it's not an Error, use a generic error message or convert error to a string
-      throw new Error('An unknown error occurred');
-    }
+    console.log(error);
+  }
+};
+
+export const getCategories = async () => {
+  try {
+    return await axios.get<CategoriesDTO[]>('/courses/categories');
+  } catch (error) {
+    console.log(error);
   }
 };

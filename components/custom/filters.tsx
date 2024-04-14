@@ -1,11 +1,14 @@
 "use client";
 
+import { useEffect, useState } from "react";
+import { useRouter, usePathname, useSearchParams } from "next/navigation";
+
 import { Box } from "@/components/ui/box";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Typography } from "@/components/ui/typography";
-import { ToggleGroup, ToggleGroupItem } from "@radix-ui/react-toggle-group";
-import { useState } from "react";
+import { ToggleGroup } from "@radix-ui/react-toggle-group";
+import { CategoriesDTO } from "@/types/categories";
 
 export const allCategoryFilters = [
   "All",
@@ -16,16 +19,27 @@ export const allCategoryFilters = [
   "Psychology",
 ] as const;
 
-export type FilterCategoryValue = Partial<(typeof allCategoryFilters)[number]>;
+interface FilterProps {
+  categories?: CategoriesDTO[];
+};
 
-export const Filters = () => {
-  const [selectedFilter, setSelectedFilter] = useState<FilterCategoryValue[]>([
-    "All",
+export const Filters = ({ categories }: FilterProps) => {
+  const searchParams = useSearchParams();
+
+  const allCategory = searchParams.get('categoryIds')
+    ? JSON.parse(searchParams.get('categoryIds') ?? '')?.[0]
+    : categories?.find((category) => category.name === 'All')?.id;
+
+  const [selectedFilter, setSelectedFilter] = useState<string[]>([
+    allCategory ?? '',
   ]);
 
-  const handleSelectFilter = (value: FilterCategoryValue) => {
-    if (value === "All") {
-      setSelectedFilter(["All"]);
+  const router = useRouter();
+  const pathname = usePathname();
+
+  const handleSelectFilter = (value: string) => {
+    if (value === allCategory) {
+      setSelectedFilter([allCategory]);
 
       return;
     }
@@ -33,7 +47,7 @@ export const Filters = () => {
     if (selectedFilter.includes(value)) {
       setSelectedFilter((prev) => {
         return prev.filter((item) => item !== value).length === 0
-          ? ["All"]
+          ? [allCategory ?? '']
           : prev.filter((item) => item !== value);
       });
 
@@ -41,10 +55,20 @@ export const Filters = () => {
     }
 
     setSelectedFilter((prev) => [
-      ...prev.filter((item) => item !== "All"),
+      ...prev.filter((item) => item !== allCategory),
       value,
     ]);
   };
+
+  useEffect(() => {
+    const timeout = setTimeout(() => {
+      router.push(`${pathname}?categoryIds=${JSON.stringify(selectedFilter)}`)
+    }, 500);
+
+    return () => {
+      clearTimeout(timeout)
+    }
+  }, [router, selectedFilter, allCategory, pathname])
 
   return (
     <Box>
@@ -54,15 +78,15 @@ export const Filters = () => {
         value={selectedFilter}
         className="flex justify-center gap-4 flex-wrap"
       >
-        {allCategoryFilters.map((value) => (
+        {categories?.map((category) => (
           <Button
-            aria-label={value}
-            key={value}
-            onClick={() => handleSelectFilter(value)}
-            variant={selectedFilter.includes(value) ? "default" : "outline"}
+            aria-label={category.name}
+            key={category.id}
+            onClick={() => handleSelectFilter(category.id)}
+            variant={selectedFilter.includes(category.id) ? "default" : "outline"}
             className="border-none"
           >
-            <Typography>{value}</Typography>
+            <Typography>{category.name}</Typography>
           </Button>
         ))}
       </ToggleGroup>
