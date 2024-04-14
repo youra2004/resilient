@@ -1,6 +1,6 @@
-import { Filters } from '@/components/custom';
-import { getCategories, getCourses } from '@/request';
-import { CourseCard } from '@/components/custom/course-card';
+import { Filters } from "@/components/custom";
+import { getCategories, getCourses } from "@/request";
+import { CourseCard } from "@/components/custom/course-card";
 
 interface HomeProps {
   searchParams?: { categoryIds: string };
@@ -10,13 +10,11 @@ export default async function Home({ searchParams }: HomeProps) {
 
   const categories = await getCategories();
 
-  console.log('courses', courses);
-
   return (
     <>
       <Filters categories={categories?.data} />
 
-      <div className='flex flex-col gap-2 w-3/4'>
+      <div className="flex flex-col gap-2 w-3/4">
         {courses?.data?.map((course) => (
           <CourseCard key={course.id} course={course} />
         ))}

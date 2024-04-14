@@ -7,14 +7,24 @@ import { NavLink } from "./nav-link";
 import { MobileNav } from "./mobile-nav";
 import { HeaderTitle } from "./header-title";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
+import { Button } from "@/components/ui/button";
+import Image from "next/image";
+import logoutIcon from "@/public/logout.png";
 
 export const Header = () => {
   const pathName = usePathname();
+  const router = useRouter();
 
-  if (pathName === "/sign-up") {
+  if (pathName === "/sign-up" || pathName === "/sign-in") {
     return null;
   }
+
+  const handleLogout = () => {
+    localStorage.removeItem("userName");
+    localStorage.removeItem("role");
+    router.replace("sign-in");
+  };
 
   return (
     <>
@@ -39,19 +49,24 @@ export const Header = () => {
           >
             Services
           </NavLink>
-          <Link
-            href="/create-resource"
-            className="inline-flex items-center justify-center rounded-md text-sm font-medium transition-colors disabled:pointer-events-none disabled:opacity-50 bg-primary text-primary-foreground shadow hover:bg-primary/90 py-2 px-4 whitespace-nowrap"
-          >
-            Create +
-          </Link>
+          {localStorage.getItem("role") && (
+            <Link
+              href="/create-resource"
+              className="inline-flex items-center justify-center rounded-md text-sm font-medium transition-colors disabled:pointer-events-none disabled:opacity-50 bg-primary text-primary-foreground shadow hover:bg-primary/90 py-2 px-4 whitespace-nowrap"
+            >
+              Create +
+            </Link>
+          )}
         </div>
 
         <HeaderTitle />
 
         <div className="hidden sm:flex gap-4 items-center flex-1 justify-end">
           <ModeToggle />
-          <span>Name Surname</span>
+          <span>{localStorage.getItem("userName") || "Yurii Terletskyy"}</span>
+          <Button onClick={handleLogout} variant="outline" className="px-1">
+            Logout
+          </Button>
         </div>
 
         <div className="flex sm:hidden">
