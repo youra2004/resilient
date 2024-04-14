@@ -22,15 +22,12 @@ import {
   SelectContent,
   SelectGroup,
   SelectItem,
-  SelectLabel,
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { CmsEditor, allCategoryFilters } from "@/components/custom";
-import { useRef, useState } from "react";
-import { Editor } from "@tinymce/tinymce-react";
 import { CategoryDTO } from "@/types/courses";
-import axios from "@/api";
+import { createCourse } from "@/request";
+import { useRouter } from "next/navigation";
 
 const formSchema = z.object({
   title: z
@@ -63,8 +60,7 @@ export const CreateResourceForm = ({
 }: {
   coursesCategories: CategoryDTO[];
 }) => {
-  const editorRef = useRef<Editor>(null);
-  const [showCreateLesson, setShowCreteLesson] = useState(false);
+  const router = useRouter();
 
   const categoryDropdown =
     (coursesCategories || [])?.filter(({ name }) => name !== "All") || [];
@@ -77,6 +73,8 @@ export const CreateResourceForm = ({
         id: "",
         name: "",
       },
+      title: "",
+      description: "",
     },
   });
 
@@ -86,26 +84,16 @@ export const CreateResourceForm = ({
     category,
     productType,
   }: z.infer<typeof formSchema>) {
-    if (editorRef.current) {
-      const isCoursesCategory = productType === "courses";
+    const res = await createCourse({
+      title,
+      description,
+      category_id: category.id,
+    });
 
-      try {
-        const { data } = await axios.post("/courses", {
-          title,
-          description,
-          category_id: category.id,
-        });
-
-        console.log("data", data);
-      } catch (error) {
-        console.log("error add category", error);
-      }
-
-      // @ts-ignore
+    if (res?.status === 201 && res.data.id) {
+      router.push(`/create-lesson/${res.data.id}`);
     }
   }
-
-  const { productType } = form.watch();
 
   return (
     <Form {...form}>
@@ -208,9 +196,6 @@ export const CreateResourceForm = ({
             </FormItem>
           )}
         />
-
-        {productType === "courses" && <CmsEditor ref={editorRef} />}
-
         <Button type="submit" className="mt-8">
           Submit
         </Button>

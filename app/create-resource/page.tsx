@@ -1,5 +1,4 @@
 import axios from "@/api";
-import { Filters } from "@/components/custom";
 import { CreateResourceForm } from "@/components/custom";
 import { CategoryDTO } from "@/types/courses";
 

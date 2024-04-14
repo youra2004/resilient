@@ -16,14 +16,6 @@ export const CmsEditor = forwardRef<Editor>((_props, ref) => {
 
   const apiKey = process.env.NEXT_PUBLIC_CMS_API_KEY;
 
-  // const editorRef = useRef(null);
-
-  // useEffect(() => {
-  //   if (!loadingContent && editorRef.current) {
-  //     console.log(editorRef.current.currentContent);
-  //   }
-  // }, [loadingContent]);
-
   return (
     <>
       <Editor
@@ -41,11 +33,6 @@ export const CmsEditor = forwardRef<Editor>((_props, ref) => {
             respondWith.string(() =>
               Promise.reject("See docs to implement AI Assistant")
             ),
-          setup: (editor) => {
-            editor.on("init", () => {
-              console.log("editor", editor.getContent());
-            });
-          },
         }}
         onLoadContent={() => setLoadingContent(false)}
         initialValue="This course will be aimed at ..."
