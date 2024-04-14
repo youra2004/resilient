@@ -9,14 +9,14 @@ import Link from "next/link";
 export const Header = () => {
   return (
     <>
-      <div className="flex items-center justify-between p-6">
+      <div className="flex items-center justify-between p-6 max-w-7xl	mx-auto">
         <div className="sm:flex-1">
           <Logo />
         </div>
 
         <div className="hidden sm:flex gap-4 flex-1 justify-center items-center">
           <NavLink
-            href="courses"
+            href="/courses"
             className="text-lg hover:text-muted-foreground transition-colors"
           >
             Courses
@@ -25,7 +25,7 @@ export const Header = () => {
           <Separator orientation="vertical" className="h-4" />
 
           <NavLink
-            href="services"
+            href="/services"
             className="text-lg hover:text-muted-foreground transition-colors"
           >
             Services
