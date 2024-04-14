@@ -105,9 +105,11 @@ export const CreateResourceForm = ({
     }
   }
 
+  const { productType } = form.watch();
+
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="max-w-3xl w-full">
+      <form onSubmit={form.handleSubmit(onSubmit)} className="max-w-4xl w-full">
         <FormField
           control={form.control}
           name="productType"
@@ -207,7 +209,7 @@ export const CreateResourceForm = ({
           )}
         />
 
-        <CmsEditor ref={editorRef} />
+        {productType === "courses" && <CmsEditor ref={editorRef} />}
 
         <Button type="submit" className="mt-8">
           Submit

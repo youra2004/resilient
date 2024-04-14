@@ -9,7 +9,7 @@ import Link from "next/link";
 export const Header = () => {
   return (
     <>
-      <div className="flex items-center justify-between p-6">
+      <div className="flex items-center justify-between p-6 max-w-7xl	mx-auto">
         <div className="sm:flex-1">
           <Logo />
         </div>
