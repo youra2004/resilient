@@ -27,8 +27,10 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { CmsEditor, allCategoryFilters } from "@/components/custom";
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import { Editor } from "@tinymce/tinymce-react";
+import { CategoryDTO } from "@/types/courses";
+import axios from "@/api";
 
 const formSchema = z.object({
   title: z
@@ -56,15 +58,16 @@ const formSchema = z.object({
   productType: z.enum(["service", "courses"]),
 });
 
-const categoryDropdown = allCategoryFilters
-  .filter((name) => name !== "All")
-  .map((name, index) => ({
-    id: index.toString(),
-    name,
-  }));
-
-export const CreateResourceForm = () => {
+export const CreateResourceForm = ({
+  coursesCategories,
+}: {
+  coursesCategories: CategoryDTO[];
+}) => {
   const editorRef = useRef<Editor>(null);
+  const [showCreateLesson, setShowCreteLesson] = useState(false);
+
+  const categoryDropdown =
+    (coursesCategories || [])?.filter(({ name }) => name !== "All") || [];
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -77,13 +80,27 @@ export const CreateResourceForm = () => {
     },
   });
 
-  function onSubmit({
+  async function onSubmit({
     title,
     description,
     category,
     productType,
   }: z.infer<typeof formSchema>) {
     if (editorRef.current) {
+      const isCoursesCategory = productType === "courses";
+
+      try {
+        const { data } = await axios.post("/courses", {
+          title,
+          description,
+          category_id: category.id,
+        });
+
+        console.log("data", data);
+      } catch (error) {
+        console.log("error add category", error);
+      }
+
       // @ts-ignore
     }
   }

@@ -1,6 +1,12 @@
+import axios from "@/api";
 import { Filters } from "@/components/custom";
 import { CreateResourceForm } from "@/components/custom";
+import { CategoryDTO } from "@/types/courses";
 
-export default function CreateResource() {
-  return <CreateResourceForm />;
+export default async function CreateResource() {
+  const { data: coursesCategories } = await axios.get<CategoryDTO[]>(
+    "/courses/categories"
+  );
+
+  return <CreateResourceForm coursesCategories={coursesCategories} />;
 }
