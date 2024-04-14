@@ -83,7 +83,10 @@ export const registerUser = async (body: {
   personal_info: string;
 }) => {
   try {
-    const { data, status } = await axios.post('/users/sign-up', body);
+    const { data, status } = await axios.post<{ id: string }>(
+      '/users/sign-up',
+      body
+    );
 
     return { data, status };
   } catch (error) {
@@ -135,5 +138,18 @@ export const createCooperations = async (userId: string, serviceId: string) => {
     return await axios.post('/cooperations', { userId, serviceId });
   } catch (error) {
     console.log(error);
+  }
+};
+
+export const uploadDocuments = async (id: string, body: FormData) => {
+  try {
+    const { data, status } = await axios.post<{ id: string }>(
+      `/users/${id}/upload-documents`,
+      body
+    );
+
+    return { data, status };
+  } catch (error) {
+    console.log('error in upload document', error);
   }
 };

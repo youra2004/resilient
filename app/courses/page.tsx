@@ -21,8 +21,6 @@ export default async function Home({ searchParams }: HomeProps) {
     'd9297797-c9fc-449a-b71d-2f14696ec6c9'
   );
 
-  console.log('userProgres', userProgres);
-
   return (
     <>
       <Filters categories={categories?.data} />

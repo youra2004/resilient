@@ -21,7 +21,8 @@ import { useState } from "react";
 import { Box } from "@/components/ui/box";
 import { Label } from "@/components/ui/label";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
-import { registerUser } from "@/request";
+import { registerUser, uploadDocuments } from "@/request";
+import Link from "next/link";
 
 const formSchema = z.object({
   firstName: z.string().min(4, {
@@ -68,7 +69,23 @@ export default function SignUpPage() {
       password,
     });
 
-    console.log("res-client", res);
+    if (!res?.data) {
+      return;
+    }
+
+    const formData = new FormData();
+
+    files.forEach((file) => {
+      formData.append(`documents`, file);
+    });
+
+    const resUpload = await uploadDocuments(res?.data.id, formData);
+
+    if (resUpload?.status !== 201) {
+      return;
+    }
+
+    localStorage.setItem("userName", `${firstName} ${lastName}`);
 
     setShowPendingPage(true);
   }
@@ -92,23 +109,6 @@ export default function SignUpPage() {
             <Typography variant="h3" className="mx-auto w-max mb-4">
               Create account
             </Typography>
-            {/* <Typography className="text-lg font-medium mb-2">
-              Choose account type
-            </Typography>
-            <RadioGroup defaultValue="consumer">
-              <div className="flex items-center space-x-2">
-                <Label className="cursor-pointer flex flex-row justify-center items-center gap-2">
-                  <RadioGroupItem value="consumer" className="h-5 w-5" />
-                  Consumer
-                </Label>
-              </div>
-              <div className="flex items-center space-x-2">
-                <Label className="cursor-pointer flex flex-row justify-center items-center gap-2">
-                  <RadioGroupItem value="volunteer" className="h-5 w-5" />
-                  Volunteer
-                </Label>
-              </div>
-            </RadioGroup> */}
             <FormField
               control={form.control}
               name="firstName"
@@ -197,6 +197,12 @@ export default function SignUpPage() {
             <Button type="submit" className="mt-8">
               Submit
             </Button>
+            <Typography className="mt-6 px-4 mx-auto w-max">
+              Already have account?{" "}
+              <Link href="/sign-in" className="text-primary">
+                Sign In
+              </Link>
+            </Typography>
           </form>
         </Form>
       )}
