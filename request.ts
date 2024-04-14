@@ -3,6 +3,7 @@
 import axios from './api';
 import { CategoriesDTO } from './types/categories';
 import { CoursesDTO, LessonsDTO } from './types/courses';
+import { UserCooperation, UserProgress } from './types/user';
 
 export const getCourses = async () => {
   try {
@@ -82,12 +83,57 @@ export const registerUser = async (body: {
   personal_info: string;
 }) => {
   try {
-    const { data, status } = await axios.post("/users/sign-up", body);
-
-    console.log("data", data, status);
+    const { data, status } = await axios.post('/users/sign-up', body);
 
     return { data, status };
   } catch (error) {
-    console.log("error", error);
+    console.log('error', error);
+  }
+};
+
+export const getUserProgress = async (userId: string) => {
+  try {
+    return await axios.get<UserProgress[]>(
+      `/courses/course-progresses/${userId}`
+    );
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const getUserProgressByCourse = async (
+  userId: string,
+  courseId: string
+) => {
+  try {
+    return await axios.get<UserProgress[]>(
+      `/courses/course-progresses/${userId}`
+    );
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const startProgresCourse = async (userId: string, courseId: string) => {
+  try {
+    return await axios.post('/courses/course-progresses', { userId, courseId });
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const getCooperations = async (userId: string) => {
+  try {
+    return await axios.get<UserCooperation[]>(`/cooperations/${userId}`);
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const createCooperations = async (userId: string, serviceId: string) => {
+  try {
+    return await axios.post('/cooperations', { userId, serviceId });
+  } catch (error) {
+    console.log(error);
   }
 };
