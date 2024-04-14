@@ -5,6 +5,8 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion"
+import { Button } from '@/components/ui/button';
+import { ProgressButton } from '@/components/custom';
 
 interface CourseProps {
   params: {
@@ -32,6 +34,8 @@ const Course = async ({ params }: CourseProps) => {
           </AccordionItem>
         ))}
       </Accordion>
+
+      <ProgressButton courseId={course?.data.id ?? ''} />
     </div>
   );
 };

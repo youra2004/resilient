@@ -1,18 +1,19 @@
-"use server";
+'use server';
 
-import axios from "./api";
-import { CategoriesDTO } from "./types/categories";
-import { CoursesDTO, LessonsDTO } from "./types/courses";
+import axios from './api';
+import { CategoriesDTO } from './types/categories';
+import { CoursesDTO, LessonsDTO } from './types/courses';
+import { UserCooperation, UserProgress } from './types/user';
 
 export const getCourses = async () => {
   try {
-    return await axios.get<CoursesDTO[]>("/courses?search=");
+    return await axios.get<CoursesDTO[]>('/courses?search=');
   } catch (error) {
     if (error instanceof Error) {
       throw new Error(error.message); // Now we are passing a string to Error constructor
     } else {
       // If it's not an Error, use a generic error message or convert error to a string
-      throw new Error("An unknown error occurred");
+      throw new Error('An unknown error occurred');
     }
   }
 };
@@ -23,11 +24,11 @@ export const createCourse = async (body: {
   category_id: string;
 }) => {
   try {
-    const { data, status } = await axios.post<{ id: string }>("/courses", body);
+    const { data, status } = await axios.post<{ id: string }>('/courses', body);
 
     return { data, status };
   } catch (error) {
-    console.log("error", error);
+    console.log('error', error);
   }
 };
 
@@ -37,9 +38,9 @@ export const createService = async (body: {
   category_id: string;
 }) => {
   try {
-    return await axios.post<LessonsDTO>("/services", body);
+    return await axios.post<LessonsDTO>('/services', body);
   } catch (error) {
-    console.log("error", error);
+    console.log('error', error);
   }
 };
 
@@ -49,18 +50,18 @@ export const createLesson = async (body: {
   course_id: string;
 }) => {
   try {
-    const { data, status } = await axios.post("/courses/lessons", body);
+    const { data, status } = await axios.post('/courses/lessons', body);
 
     return { data, status };
   } catch (error) {
-    console.log("error", error);
+    console.log('error', error);
     console.log(error);
   }
 };
 
 export const getCategories = async () => {
   try {
-    return await axios.get<CategoriesDTO[]>("/courses/categories");
+    return await axios.get<CategoriesDTO[]>('/courses/categories');
   } catch (error) {
     console.log(error);
   }
@@ -83,13 +84,60 @@ export const registerUser = async (body: {
 }) => {
   try {
     const { data, status } = await axios.post<{ id: string }>(
-      "/users/sign-up",
+      '/users/sign-up',
       body
     );
 
     return { data, status };
   } catch (error) {
-    console.log("error", error);
+    console.log('error', error);
+  }
+};
+
+export const getUserProgress = async (userId: string) => {
+  try {
+    return await axios.get<UserProgress[]>(
+      `/courses/course-progresses/${userId}`
+    );
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const getUserProgressByCourse = async (
+  userId: string,
+  courseId: string
+) => {
+  try {
+    return await axios.get<UserProgress[]>(
+      `/courses/course-progresses/${userId}`
+    );
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const startProgresCourse = async (userId: string, courseId: string) => {
+  try {
+    return await axios.post('/courses/course-progresses', { userId, courseId });
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const getCooperations = async (userId: string) => {
+  try {
+    return await axios.get<UserCooperation[]>(`/cooperations/${userId}`);
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const createCooperations = async (userId: string, serviceId: string) => {
+  try {
+    return await axios.post('/cooperations', { userId, serviceId });
+  } catch (error) {
+    console.log(error);
   }
 };
 
@@ -102,6 +150,6 @@ export const uploadDocuments = async (id: string, body: FormData) => {
 
     return { data, status };
   } catch (error) {
-    console.log("error in upload document", error);
+    console.log('error in upload document', error);
   }
 };

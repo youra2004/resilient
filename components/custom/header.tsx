@@ -41,8 +41,6 @@ export const Header = () => {
             Courses
           </NavLink>
 
-          <Separator orientation="vertical" className="h-4" />
-
           <NavLink
             href="/services"
             className="text-lg hover:text-muted-foreground transition-colors"
