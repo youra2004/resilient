@@ -38,8 +38,8 @@ export default function SignInPage() {
 
   async function onSubmit({ password, email }: z.infer<typeof formSchema>) {
     setTimeout(() => {
-      localStorage.setItem("user-id", "");
-      localStorage.setItem("role", "volunteer");
+      window?.localStorage.setItem("user-id", "");
+      window?.localStorage.setItem("role", "volunteer");
       router.push("/");
     }, 300);
   }

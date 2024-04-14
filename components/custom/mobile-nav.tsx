@@ -49,7 +49,7 @@ export const MobileNav = () => {
           <div className="flex gap-4 items-center">
             <ModeToggle />
             <span>
-              {localStorage.getItem("userName") || "Yurii Terletskyy"}
+              {window?.localStorage.getItem("userName") || "Yurii Terletskyy"}
             </span>
           </div>
         </DrawerContent>

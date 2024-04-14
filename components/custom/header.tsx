@@ -21,8 +21,8 @@ export const Header = () => {
   }
 
   const handleLogout = () => {
-    localStorage.removeItem("userName");
-    localStorage.removeItem("role");
+    window?.localStorage.removeItem("userName");
+    window?.localStorage.removeItem("role");
     router.replace("sign-in");
   };
 
@@ -47,7 +47,7 @@ export const Header = () => {
           >
             Services
           </NavLink>
-          {localStorage.getItem("role") && (
+          {window?.localStorage.getItem("role") && (
             <Link
               href="/create-resource"
               className="inline-flex items-center justify-center rounded-md text-sm font-medium transition-colors disabled:pointer-events-none disabled:opacity-50 bg-primary text-primary-foreground shadow hover:bg-primary/90 py-2 px-4 whitespace-nowrap"
@@ -61,7 +61,9 @@ export const Header = () => {
 
         <div className="hidden sm:flex gap-4 items-center flex-1 justify-end">
           <ModeToggle />
-          <span>{localStorage.getItem("userName") || "Yurii Terletskyy"}</span>
+          <span>
+            {window?.localStorage.getItem("userName") || "Yurii Terletskyy"}
+          </span>
           <Button onClick={handleLogout} variant="outline" className="px-1">
             Logout
           </Button>

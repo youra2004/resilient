@@ -85,7 +85,7 @@ export default function SignUpPage() {
       return;
     }
 
-    localStorage.setItem("userName", `${firstName} ${lastName}`);
+    window?.localStorage.setItem("userName", `${firstName} ${lastName}`);
 
     setShowPendingPage(true);
   }
