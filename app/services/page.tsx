@@ -1,9 +1,10 @@
-import { Filters } from "@/components/custom";
+import { Filters, ServiceCard } from "@/components/custom";
 import axios from "@/api";
+import { ServiceDTO } from "@/types/courses";
 
-const getServicesCategories = async () => {
+const getServices = async () => {
   try {
-    const { data } = await axios.get("/services/categories");
+    const { data } = await axios.get<ServiceDTO[]>("/services");
 
     return data;
   } catch (error) {
@@ -11,10 +12,14 @@ const getServicesCategories = async () => {
   }
 };
 
-export default async function Home() {
-  const serviceCategories = await getServicesCategories();
+export default async function ServicesPage() {
+  const services = await getServices();
 
-  console.log("serviceCategories", serviceCategories);
-
-  return <Filters />;
+  return (
+    <>
+      {services?.map((service) => (
+        <ServiceCard key={service.id} service={service} />
+      ))}
+    </>
+  );
 }

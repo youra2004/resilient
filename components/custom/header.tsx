@@ -1,3 +1,5 @@
+"use client";
+
 import { Logo } from "./logo";
 import { ModeToggle } from ".";
 import { Separator } from "../ui/separator";
@@ -5,8 +7,15 @@ import { NavLink } from "./nav-link";
 import { MobileNav } from "./mobile-nav";
 import { HeaderTitle } from "./header-title";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 
 export const Header = () => {
+  const pathName = usePathname();
+
+  if (pathName === "/sign-up") {
+    return null;
+  }
+
   return (
     <>
       <div className="flex items-center justify-between p-6 max-w-7xl	mx-auto">
