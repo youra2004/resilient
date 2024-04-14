@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
+import NextTopLoader from 'nextjs-toploader';
 
 import { ThemeProvider } from "@/providers/theme";
 import { Header } from "@/components/custom";
@@ -30,6 +31,7 @@ export default function RootLayout({
         >
           <Header />
           <main className="flex min-h-screen flex-col items-center justify-between px-10 md:px-20 pt-3 pb-10 max-w-7xl mx-auto">
+            <NextTopLoader />
             {children}
           </main>
         </ThemeProvider>
